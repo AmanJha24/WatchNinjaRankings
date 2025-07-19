@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vote - WatchNinja Rankings</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <a href="index.html"><img src="logo.png" class="logo" alt="WatchNinja Logo" /></a>
+    <h1>Vote for Your Favorite Anime</h1>
+  </header>
+  <main>
+    <form id="voteForm">
+      <input type="email" name="email" placeholder="Enter your email" required /><br>
+      <select name="category" required>
+        <option value="">Select Category</option>
+        <option value="All Time Top">All Time Top Anime</option>
+        <option value="Weekly Popular">Weekly Popular</option>
+        <option value="Monthly Ranking">Monthly Ranking</option>
+        <option value="Best Episode">Best Episode Weekly</option>
+        <option value="IMDB">Based on IMDB Score</option>
+      </select><br>
+      <input type="text" name="anime" placeholder="Anime Name" required /><br>
+      <button type="submit">Submit Vote</button>
+    </form>
+    <p id="responseMsg"></p>
+  </main>
+  <script>
+    document.getElementById('voteForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      const response = await fetch("YOUR_GOOGLE_SCRIPT_URL", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      });
+      document.getElementById('responseMsg').innerText = await response.text();
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
